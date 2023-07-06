@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+#include <random>
+
+const int TAM = 100;
+/*El parámetro V es una referencia a un vector en el cual vamos a almacenar los números generados.
+El parámetro n indica la cantidad de números a generar.
+Creamos un objeto std::random_device para obtener semillas aleatorias del sistema.
+Creamos un objeto std::mt19937 que es un generador de números pseudoaleatorios basado en el algoritmo Mersenne Twister.
+Creamos un objeto std::uniform_int_distribution que nos permite generar números enteros uniformemente distribuidos entre 0 y 149.
+Luego, en un bucle, generamos n números aleatorios y los agregamos al vector V usando V.push_back(dist(mt)).
+Finalmente, retornamos el vector V*/
+std::vector<int> GenerarVector(std::vector<int>& V, int n) {
+    std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_int_distribution<int> dist(0, 149);
+
+    for (int i = 0; i < n; i++) {
+        V.push_back(dist(mt));
+    }
+
+    return V;
+}
+/*El parámetro V es una referencia constante a un vector que queremos mostrar.
+Recorremos cada elemento num del vector V y lo imprimimos en la salida estándar usando std::cout.
+Después de imprimir todos los elementos, insertamos un salto de línea std::endl.
+*/
+void MostrarVector(const std::vector<int>& V) {
+    for (int num : V) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+}
+/*El parámetro V es una referencia constante a un vector en el cual queremos contar los múltiplos de dos.
+Inicializamos una variable contador en cero para contar los múltiplos de dos encontrados.
+Recorremos cada elemento num del vector V.
+Si num es divisible por 2 (es decir, es un múltiplo de dos), incrementamos el contador.
+Al final, retornamos el contador con la cantidad de múltiplos de dos encontrados.*/
+int ContarMultiplosdeDos(const std::vector<int>& V) {
+    int contador = 0;
+
+    for (int num : V) {
+        if (num % 2 == 0) {
+            contador++;
+        }
+    }
+
+    return contador;
+}
+/*Creamos un vector V vacío.
+Llamamos a GenerarVector pasando V y TAM como argumentos para generar el vector de números aleatorios y asignarlo nuevamente a V.
+Imprimimos en pantalla el mensaje "Vector generado: " y luego llamamos a MostrarVector pasando V como argumento para mostrar el contenido del vector.
+Llamamos a ContarMultiplosdeDos pasando V como argumento para contar los múltiplos de dos y asignamos el resultado a cantidadMultiplosDos.
+Imprimimos en pantalla la cantidad de múltiplos de dos encontrados.*/
+int main() {
+    std::vector<int> V;
+
+    V = GenerarVector(V, TAM);
+
+    std::cout << "Vector generado: ";
+    MostrarVector(V);
+
+    int cantidadMultiplosDos = ContarMultiplosdeDos(V);
+    std::cout << "Cantidad de múltiplos de dos: " << cantidadMultiplosDos << std::endl;
+
+    return 0;
+}
